@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**/*.ts"
+    ]
+  },
+  "rules": {
+    "jsx-no-lambda": false,
+    "object-literal-sort-keys": false,
+    "no-console": false,
+    "ordered-imports": false,
+    "interface-name": false
+  }
+}

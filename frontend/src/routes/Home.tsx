@@ -11,7 +11,7 @@ export default class Home extends React.Component<IProps> {
 
     public render() {
         return (
-            <div>Home</div>
+            <h2>Home</h2>
         );
     }
 };

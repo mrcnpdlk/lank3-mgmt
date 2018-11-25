@@ -7,6 +7,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Devices from "./routes/Devices";
 import SecretRouteComponent from "./components/SecretRouteComponent";
+import {AuthService} from "./services/AuthService";
 
 
 export default class App extends Component {
@@ -25,7 +26,9 @@ export default class App extends Component {
                         </Link>
                     </Navbar.Group>
                     <Navbar.Group align={Alignment.RIGHT}>
-                        <Button className="bp3-minimal" icon={"user"}/>
+                        <Button className="bp3-minimal" icon={"user"} onClick={() => {
+                            this.logout();
+                        }}/>
                         <Button className="bp3-minimal" icon={"notifications"}/>
                         <Button className="bp3-minimal" icon={"cog"}/>
                     </Navbar.Group>
@@ -38,6 +41,10 @@ export default class App extends Component {
                 </Switch>
             </>
         );
+    }
+
+    private logout(): void {
+        AuthService.clearSession();
     }
 }
 

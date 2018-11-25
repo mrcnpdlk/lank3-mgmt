@@ -20,9 +20,9 @@ export default class Devices extends React.Component<{}, IState> {
         };
     }
 
-    public componentDidMount() {
+    public async componentDidMount() {
         // this.setState({isLoggedIn: AuthService.isSessionValid()});
-        this.getTestData();
+        await this.getTestData();
     }
 
     public render() {

@@ -3,14 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:9000",
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/**/*.d.ts",
-      "!src/index.tsx",
-      "!src/registerServiceWorker.ts"
-    ]
-  },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
@@ -21,9 +13,11 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts-ts": "^3.1.0",
+    "react-scripts-ts-scss": "^2.8.3",
     "react-router": "^4.3",
     "react-router-dom": "^4.3",
     "react-router-native": "^4.3",
+    "react-native": "^0.57.5",
     "classnames": "^2.2.6",
     "prop-types": "^15.6.2",
     "@blueprintjs/core": "^3.9.0",
@@ -37,13 +31,19 @@
     "@types/axios": "^0.14.0",
     "@types/enzyme": "^3.1.13",
     "@types/enzyme-adapter-react-16": "^1.0.3",
-    "@types/jest": "^23.1.5",
     "@types/node": "^10.5.2",
     "@types/react": "16.4.6",
     "@types/react-dom": "^16.0.10",
     "@types/classnames": "^2.2.6",
     "@types/react-router": "^4.4.1",
     "@types/react-router-dom": "^4.3.1",
-    "typescript": "^3.1.6"
-  }
+    "typescript": "^3.1.6",
+    "node-sass": "^4.11.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

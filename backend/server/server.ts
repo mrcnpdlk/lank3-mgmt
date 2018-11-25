@@ -10,7 +10,7 @@ const port = process.env.PORT || 9000;
     const client = await mongoose.connect(url, {useNewUrlParser: true});
     // Populate database with sample data if it's empty
     await populateDatabase();
-    // Start express App
+    // Start express App2
     app.listen(port);
     console.log(`App listening on port ${port}...`);
 })();

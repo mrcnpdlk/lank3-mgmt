@@ -1,6 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import {AuthService} from "../services/AuthService";
+import {Button, FormGroup, InputGroup} from "@blueprintjs/core";
 
 export default class Login extends React.Component<any, any> {
     public state = {
@@ -12,30 +13,50 @@ export default class Login extends React.Component<any, any> {
         error: "",
     };
 
+    public constructor(props: any) {
+        super(props);
+    }
+
 
     public render() {
         return (
             (
                 <div>
-                    (try the credentials: testuser@email.com / my-password)
-                    <input
-                        disabled={this.state.isRequesting}
-                        placeholder="email"
-                        type="text"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({email: e.target.value})}
-                    />
-                    <input
-                        disabled={this.state.isRequesting}
-                        placeholder="password"
-                        type="password"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({password: e.target.value})}
-                    />
-                    <button disabled={this.state.isRequesting} onClick={this.handleLogin}>Log in</button>
+                    <h2>Login</h2>
+                    <FormGroup
+                        label="Label A"
+                        labelFor="text-input"
+                        labelInfo="(required)"
+                    >
+                        <form>
+                            <InputGroup
+                                id="email"
+                                type={"email"}
+                                placeholder="User email"
+                                leftIcon="user"
+                                disabled={this.state.isRequesting}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({email: e.target.value})}
+                            />
+                            <InputGroup
+                                id="password"
+                                type={"password"}
+                                placeholder="User password"
+                                leftIcon="lock"
+                                disabled={this.state.isRequesting}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({password: e.target.value})}
+                            />
+                            <Button
+                                text={"Login"}
+                                type={"button"}
+                                disabled={this.state.isRequesting}
+                                onClick={this.handleLogin}
+                            />
+                        </form>
+                    </FormGroup>
                 </div>
             )
         );
     }
-
 
     private handleLogin = async (): Promise<void> => {
         const {email, password} = this.state;
@@ -46,8 +67,6 @@ export default class Login extends React.Component<any, any> {
             const {token, expiry} = response.data;
             AuthService.setSession(token, expiry);
             this.setState({isLoggedIn: true});
-
-            console.log(this.state);
         } catch (error) {
             this.setState({error: "Something went wrong"});
         } finally {

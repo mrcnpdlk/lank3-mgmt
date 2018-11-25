@@ -11,6 +11,8 @@ interface IState {
 
 
 export default class Devices extends React.Component<{}, IState> {
+    private bIsMounted = false;
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -18,6 +20,14 @@ export default class Devices extends React.Component<{}, IState> {
             items: [],
             isRequesting: false
         };
+    }
+
+    public componentWillMount() {
+        this.bIsMounted = true;
+    }
+
+    public componentWillUnmount() {
+        this.bIsMounted = false;
     }
 
     public async componentDidMount() {
@@ -71,7 +81,9 @@ export default class Devices extends React.Component<{}, IState> {
         try {
             this.setState({error: "", isRequesting: true});
             const response = await axios.get<App.IDevice[]>("/api/items", {headers: AuthService.getAuthHeaders()});
-            this.setState({items: response.data});
+            if (this.bIsMounted) {
+                this.setState({items: response.data});
+            }
         } catch (error) {
             this.setState({error: "Something went wrong"});
         } finally {

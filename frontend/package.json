@@ -13,7 +13,6 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts-ts": "^3.1.0",
-    "react-scripts-ts-scss": "^2.8.3",
     "react-router": "^4.3",
     "react-router-dom": "^4.3",
     "react-router-native": "^4.3",
@@ -29,20 +28,16 @@
   "devDependencies": {
     "@types/app-shared-types": "link:../types",
     "@types/axios": "^0.14.0",
-    "@types/enzyme": "^3.1.13",
-    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/node": "^10.5.2",
     "@types/react": "16.4.6",
     "@types/react-dom": "^16.0.10",
     "@types/classnames": "^2.2.6",
     "@types/react-router": "^4.4.1",
     "@types/react-router-dom": "^4.3.1",
-    "typescript": "^3.1.6",
-    "node-sass": "^4.11.0"
+    "typescript": "^3.1.6"
   },
   "browserslist": [
     ">0.2%",
-    "not dead",
     "not ie <= 11",
     "not op_mini all"
   ]

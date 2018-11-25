@@ -1,49 +1,21 @@
 import {pbkdf2Sync, randomBytes} from "crypto";
 import {sign} from "jsonwebtoken";
-import {Document, model, Schema} from "mongoose";
-import {SchemaDef} from "../../types";
-
-interface User {
-    email: string;
-    hash: string;
-    salt: string;
-}
-
-// Declare the model interface
-interface UserDoc extends User, Document {
-    setPassword(password: string): void;
-
-    isPasswordValid(password: string): boolean;
-
-    generateJwt(): { token: string; expiry: Date };
-}
-
-const userSchemaDef: SchemaDef<User> = {
-    email: {
-        type: String,
-        // Important! We want users to be unique
-        unique: true,
-        required: true,
-    },
-    hash: {
-        type: String,
-        required: true,
-    },
-    salt: {
-        type: String,
-        required: true,
-    },
-};
-
-// Declare the model schema
-const userSchema = new Schema(userSchemaDef);
 
 // Define some public methods for our model
-class UserClass {
+export default class User {
     private _id: string;
-    private email: string;
     private salt: string;
     private hash: string;
+
+    private _email: string;
+
+    get email(): string {
+        return this._email;
+    }
+
+    set email(value: string) {
+        this._email = value;
+    }
 
     // Create a salt and hash from the password
     public setPassword(password: string) {
@@ -64,15 +36,10 @@ class UserClass {
 
         const token = sign({
             _id: this._id,
-            email: this.email,
+            email: this._email,
             exp: Math.round(expiry.getTime() / 1000),
         }, process.env.AUTH_SHARED_SECRET);
 
         return {token, expiry};
     }
 }
-
-// Important! Don't forget to use loadClass so your new methods will be included in the model
-userSchema.loadClass(UserClass);
-
-export default model<UserDoc>("User", userSchema);

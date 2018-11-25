@@ -24,6 +24,11 @@ export default class App extends Component {
                             <Button className="bp3-minimal" icon="document" text="Devices"/>
                         </Link>
                     </Navbar.Group>
+                    <Navbar.Group align={Alignment.RIGHT}>
+                        <Button className="bp3-minimal" icon={"user"}/>
+                        <Button className="bp3-minimal" icon={"notifications"}/>
+                        <Button className="bp3-minimal" icon={"cog"}/>
+                    </Navbar.Group>
                 </Navbar>
                 <Switch>
                     <Route path={'/'} exact={true} render={props => <Home {...props}/>}/>

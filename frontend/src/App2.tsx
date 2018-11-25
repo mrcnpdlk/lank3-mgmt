@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from 'react';
-import * as session from './session';
+import {AuthService} from "./services/AuthService";
 
 export interface AppState {
     email: string;
@@ -22,7 +22,7 @@ class App2 extends React.Component<{}, AppState> {
     };
 
     public componentDidMount() {
-        this.setState({isLoggedIn: session.isSessionValid()});
+        this.setState({isLoggedIn: AuthService.isSessionValid()});
     }
 
     public render() {
@@ -69,7 +69,7 @@ class App2 extends React.Component<{}, AppState> {
             this.setState({isRequesting: true});
             const response = await axios.post<{ token: string; expiry: string }>("/api/users/login", {email, password});
             const {token, expiry} = response.data;
-            session.setSession(token, expiry);
+            AuthService.setSession(token, expiry);
             this.setState({isLoggedIn: true});
         } catch (error) {
             this.setState({error: "Something went wrong"});
@@ -79,14 +79,14 @@ class App2 extends React.Component<{}, AppState> {
     };
 
     private logout = (): void => {
-        session.clearSession();
+        AuthService.clearSession();
         this.setState({isLoggedIn: false});
     };
 
     private getTestData = async (): Promise<void> => {
         try {
             this.setState({error: ""});
-            const response = await axios.get<App.Item[]>("/api/items", {headers: session.getAuthHeaders()});
+            const response = await axios.get<App.Item[]>("/api/items", {headers: AuthService.getAuthHeaders()});
             this.setState({data: response.data});
         } catch (error) {
             this.setState({error: "Something went wrong"});

@@ -1,63 +1,39 @@
-import {Button, Intent, Spinner} from '@blueprintjs/core';
 import * as React from "react";
-
-interface IDevice {
-    id: string;
-    host: string;
-    login: string | null;
-    password: string | null;
-    ver: number;
-    token: string;
-}
+import {AuthService} from "../services/AuthService";
+import axios from "axios";
+import {Button, Intent, Spinner} from "@blueprintjs/core";
 
 interface IState {
-    error: any;
-    isLoaded: boolean;
-    items: IDevice[];
+    error: string | null,
+    items: App.IDevice[],
+    isRequesting: boolean
 }
+
 
 export default class Devices extends React.Component<{}, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
             error: null,
-            isLoaded: false,
-            items: []
+            items: [],
+            isRequesting: false
         };
     }
 
     public componentDidMount() {
-        fetch('http://localhost:3001/devices')
-            .then(res => res.json())
-            .then(
-                (list: IDevice[]) => {
-                    this.setState({
-                        isLoaded: true,
-                        items: list
-                    });
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            );
+        // this.setState({isLoggedIn: AuthService.isSessionValid()});
+        this.getTestData();
     }
 
     public render() {
-        const {error, isLoaded, items} = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
+        if (this.state.isRequesting) {
             return (
                 <Spinner intent={Intent.PRIMARY} size={Spinner.SIZE_STANDARD}/>
             );
-        } else {
-            return (
+        }
+        return (
+            <>
+                <h2>Devices</h2>
                 <table className="bp3-html-table bp3-html-table-condensed">
                     <thead>
                     <tr>
@@ -67,8 +43,8 @@ export default class Devices extends React.Component<{}, IState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {items.map(
-                        (item: IDevice) => (
+                    {this.state.items.map(
+                        (item: any) => (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.host}</td>
@@ -87,9 +63,21 @@ export default class Devices extends React.Component<{}, IState> {
                     }
                     </tbody>
                 </table>
-            );
-        }
+            </>
+        );
     }
+
+    private getTestData = async (): Promise<void> => {
+        try {
+            this.setState({error: "", isRequesting: true});
+            const response = await axios.get<App.IDevice[]>("/api/items", {headers: AuthService.getAuthHeaders()});
+            this.setState({items: response.data});
+        } catch (error) {
+            this.setState({error: "Something went wrong"});
+        } finally {
+            this.setState({isRequesting: false});
+        }
+    };
 
     private onClickHandler(deviceId: string) {
         console.log(deviceId);

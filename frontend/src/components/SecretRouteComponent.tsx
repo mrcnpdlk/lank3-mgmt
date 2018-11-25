@@ -9,7 +9,7 @@ export default class SecretRouteComponent extends React.Component<RouteProps> {
 
     public render() {
         return (
-            AuthService.isAuthenticated
+            AuthService.isSessionValid()
                 ? <Route {...this.props} />
                 : <Redirect to='/login'/>
         );
